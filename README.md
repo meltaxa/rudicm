@@ -75,9 +75,7 @@ To manually enter the environment, use the following command:
 source ~/venv/bin/activate
 ```
 
-RudiCM is ready to run out of the box for this challenge.
-
-The targets are defined in the targets/webservers.yml file for the two Slack servers.
+Update the targets/webservers.yml file with the target ip addresses and credentials for access.
 
 There are two runbooks under the runbooks directory: uptime.yml and challenge.yml. 
 
