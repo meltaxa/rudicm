@@ -1,0 +1,9 @@
+servers:
+  php-1:
+    ip: 192.168.0.2
+    username: root
+    password: CHANGEME!
+  php-2:
+    ip: 192.168.0.3
+    username: root
+    password: CHANGEME!

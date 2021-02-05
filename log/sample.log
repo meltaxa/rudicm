@@ -1,0 +1,176 @@
+[2021-01-24 17:47:15,676] {config.py:21} INFO - Config servers/webservers.yml loaded.
+[2021-01-24 17:47:15,677] {rudicm.py:40} INFO - === RUNBOOK ON php-1 ===
+[2021-01-24 17:47:15,726] {config.py:21} INFO - Config runbooks/challenge.yml loaded.
+[2021-01-24 17:47:16,063] {rudicm.py:57} INFO - === TASK: Install latest Apache and PHP ===
+[2021-01-24 17:47:16,063] {runner.py:40} INFO - ssh 192.168.0.2 : sudo apt update
+[2021-01-24 17:47:16,574] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:47:17,838] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:47:22,436] {runner.py:40} INFO - ssh 192.168.0.2 : sudo apt-get -y install apache2 php libapache2-mod-php
+[2021-01-24 17:47:22,950] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:47:24,215] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:47:43,539] {apt.py:55} INFO - Exit code: 0
+[2021-01-24 17:47:43,542] {rudicm.py:57} INFO - === TASK: Remove default index.html ===
+[2021-01-24 17:47:43,543] {runner.py:40} INFO - ssh 192.168.0.2 : rm -f /var/www/html/index.html
+[2021-01-24 17:47:44,056] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:47:45,325] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:47:47,045] {file.py:68} INFO - Exit code: 0
+[2021-01-24 17:47:47,046] {rudicm.py:57} INFO - === TASK: Remove 000-default.conf symlink ===
+[2021-01-24 17:47:47,047] {runner.py:40} INFO - ssh 192.168.0.2 : rm -f /etc/apache2/sites-enabled/000-default.conf
+[2021-01-24 17:47:47,542] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:47:48,801] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:47:50,098] {file.py:68} INFO - Exit code: 0
+[2021-01-24 17:47:50,100] {rudicm.py:57} INFO - === TASK: Copy custom Apache security.conf ===
+[2021-01-24 17:47:50,100] {runner.py:21} INFO - sftp files/security.conf /etc/apache2/conf-available/security.conf
+[2021-01-24 17:47:50,600] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:47:51,856] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:47:51,857] {runner.py:40} INFO - ssh 192.168.0.2 : getent passwd root
+[2021-01-24 17:47:52,350] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:47:53,592] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:47:54,962] {runner.py:40} INFO - ssh 192.168.0.2 : getent group root
+[2021-01-24 17:47:55,516] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:47:57,247] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:47:59,277] {sftp.py:158} INFO - [chan 0] Opened sftp connection (server version 3)
+[2021-01-24 17:48:00,512] {runner.py:40} INFO - ssh 192.168.0.2 : chmod 644 /etc/apache2/conf-available/security.conf
+[2021-01-24 17:48:01,016] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:48:02,275] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:48:03,592] {sftp.py:158} INFO - [chan 0] sftp session closed.
+[2021-01-24 17:48:03,594] {copy.py:38} INFO - Exit code: 0
+[2021-01-24 17:48:03,595] {rudicm.py:57} INFO - === TASK: Copy custom Apache2 conf ===
+[2021-01-24 17:48:03,596] {runner.py:21} INFO - sftp files/custom.conf /etc/apache2/sites-available/custom.conf
+[2021-01-24 17:48:04,097] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:48:05,360] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:48:05,361] {runner.py:40} INFO - ssh 192.168.0.2 : getent passwd root
+[2021-01-24 17:48:05,853] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:48:07,090] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:48:08,385] {runner.py:40} INFO - ssh 192.168.0.2 : getent group root
+[2021-01-24 17:48:08,896] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:48:10,177] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:48:12,252] {sftp.py:158} INFO - [chan 0] Opened sftp connection (server version 3)
+[2021-01-24 17:48:13,483] {runner.py:40} INFO - ssh 192.168.0.2 : chmod 644 /etc/apache2/sites-available/custom.conf
+[2021-01-24 17:48:13,983] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:48:15,246] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:48:16,547] {sftp.py:158} INFO - [chan 0] sftp session closed.
+[2021-01-24 17:48:16,573] {copy.py:38} INFO - Exit code: 0
+[2021-01-24 17:48:16,574] {rudicm.py:57} INFO - === TASK: Symlink custom Apache2 conf ===
+[2021-01-24 17:48:16,574] {runner.py:40} INFO - ssh 192.168.0.2 : ln -sf /etc/apache2/sites-available/custom.conf /etc/apache2/sites-enabled/custom.conf
+[2021-01-24 17:48:17,071] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:48:18,351] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:48:19,656] {symlink.py:33} INFO - Exit code: 0
+[2021-01-24 17:48:19,657] {rudicm.py:57} INFO - === TASK: Create custom index.php file ===
+[2021-01-24 17:48:19,660] {runner.py:21} INFO - sftp /tmp/tmpfaumv6wm /var/www/html/index.php
+[2021-01-24 17:48:20,172] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:48:21,413] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:48:21,414] {runner.py:40} INFO - ssh 192.168.0.2 : getent passwd www-data
+[2021-01-24 17:48:21,911] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:48:23,161] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:48:24,456] {runner.py:40} INFO - ssh 192.168.0.2 : getent group www-data
+[2021-01-24 17:48:24,971] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:48:26,255] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:48:28,308] {sftp.py:158} INFO - [chan 0] Opened sftp connection (server version 3)
+[2021-01-24 17:48:29,572] {runner.py:40} INFO - ssh 192.168.0.2 : chmod 640 /var/www/html/index.php
+[2021-01-24 17:48:30,069] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:48:31,320] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:48:32,637] {sftp.py:158} INFO - [chan 0] sftp session closed.
+[2021-01-24 17:48:32,638] {file.py:68} INFO - Exit code: 0
+[2021-01-24 17:48:32,639] {rudicm.py:57} INFO - === TASK: Reload Apache ===
+[2021-01-24 17:48:32,639] {runner.py:40} INFO - ssh 192.168.0.2 : sudo service apache2 reload
+[2021-01-24 17:48:33,180] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:48:34,488] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:48:36,017] {service.py:33} INFO - Exit code: 0
+[2021-01-24 17:48:36,019] {rudicm.py:57} INFO - === TASK: Smoke Test the website index page. ===
+[2021-01-24 17:48:36,020] {runner.py:64} INFO - Running locally...
+[2021-01-24 17:48:36,566] {runner.py:74} INFO - Hello, world!
+[2021-01-24 17:48:36,569] {curl.py:46} INFO - PASSED: status code 200 returned.
+[2021-01-24 17:48:36,569] {curl.py:51} INFO - PASSED: response string Hello, world! returned.
+[2021-01-24 17:48:36,569] {curl.py:53} INFO - Exit code: 0
+[2021-01-24 17:48:36,570] {rudicm.py:53} WARNING - === SKIP TASK: Stop Apache (tag install not found)  ===
+[2021-01-24 17:48:36,570] {rudicm.py:53} WARNING - === SKIP TASK: Remove Apache php module (tag install not found)  ===
+[2021-01-24 17:48:36,570] {rudicm.py:53} WARNING - === SKIP TASK: Apt autoremove (tag install not found)  ===
+[2021-01-24 17:48:36,571] {rudicm.py:40} INFO - === RUNBOOK ON php-2 ===
+[2021-01-24 17:48:36,614] {config.py:21} INFO - Config runbooks/challenge.yml loaded.
+[2021-01-24 17:48:36,615] {rudicm.py:57} INFO - === TASK: Install latest Apache and PHP ===
+[2021-01-24 17:48:36,615] {runner.py:40} INFO - ssh 192.168.0.3 : sudo apt update
+[2021-01-24 17:48:37,110] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:48:38,363] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:48:42,922] {runner.py:40} INFO - ssh 192.168.0.3 : sudo apt-get -y install apache2 php libapache2-mod-php
+[2021-01-24 17:48:43,427] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:48:44,676] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:05,672] {apt.py:55} INFO - Exit code: 0
+[2021-01-24 17:49:05,673] {rudicm.py:57} INFO - === TASK: Remove default index.html ===
+[2021-01-24 17:49:05,674] {runner.py:40} INFO - ssh 192.168.0.3 : rm -f /var/www/html/index.html
+[2021-01-24 17:49:06,196] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:07,466] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:09,270] {file.py:68} INFO - Exit code: 0
+[2021-01-24 17:49:09,271] {rudicm.py:57} INFO - === TASK: Remove 000-default.conf symlink ===
+[2021-01-24 17:49:09,272] {runner.py:40} INFO - ssh 192.168.0.3 : rm -f /etc/apache2/sites-enabled/000-default.conf
+[2021-01-24 17:49:09,782] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:11,045] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:12,441] {file.py:68} INFO - Exit code: 0
+[2021-01-24 17:49:12,442] {rudicm.py:57} INFO - === TASK: Copy custom Apache security.conf ===
+[2021-01-24 17:49:12,442] {runner.py:21} INFO - sftp files/security.conf /etc/apache2/conf-available/security.conf
+[2021-01-24 17:49:12,941] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:14,208] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:14,209] {runner.py:40} INFO - ssh 192.168.0.3 : getent passwd root
+[2021-01-24 17:49:14,717] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:15,979] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:17,300] {runner.py:40} INFO - ssh 192.168.0.3 : getent group root
+[2021-01-24 17:49:17,801] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:19,079] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:21,151] {sftp.py:158} INFO - [chan 0] Opened sftp connection (server version 3)
+[2021-01-24 17:49:22,412] {runner.py:40} INFO - ssh 192.168.0.3 : chmod 644 /etc/apache2/conf-available/security.conf
+[2021-01-24 17:49:22,930] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:24,207] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:25,530] {sftp.py:158} INFO - [chan 0] sftp session closed.
+[2021-01-24 17:49:25,532] {copy.py:38} INFO - Exit code: 0
+[2021-01-24 17:49:25,533] {rudicm.py:57} INFO - === TASK: Copy custom Apache2 conf ===
+[2021-01-24 17:49:25,534] {runner.py:21} INFO - sftp files/custom.conf /etc/apache2/sites-available/custom.conf
+[2021-01-24 17:49:26,049] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:27,356] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:27,356] {runner.py:40} INFO - ssh 192.168.0.3 : getent passwd root
+[2021-01-24 17:49:27,864] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:29,141] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:30,511] {runner.py:40} INFO - ssh 192.168.0.3 : getent group root
+[2021-01-24 17:49:31,012] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:32,259] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:34,329] {sftp.py:158} INFO - [chan 0] Opened sftp connection (server version 3)
+[2021-01-24 17:49:35,576] {runner.py:40} INFO - ssh 192.168.0.3 : chmod 644 /etc/apache2/sites-available/custom.conf
+[2021-01-24 17:49:36,078] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:37,343] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:38,670] {sftp.py:158} INFO - [chan 0] sftp session closed.
+[2021-01-24 17:49:38,672] {copy.py:38} INFO - Exit code: 0
+[2021-01-24 17:49:38,673] {rudicm.py:57} INFO - === TASK: Symlink custom Apache2 conf ===
+[2021-01-24 17:49:38,674] {runner.py:40} INFO - ssh 192.168.0.3 : ln -sf /etc/apache2/sites-available/custom.conf /etc/apache2/sites-enabled/custom.conf
+[2021-01-24 17:49:39,175] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:40,442] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:41,828] {symlink.py:33} INFO - Exit code: 0
+[2021-01-24 17:49:41,829] {rudicm.py:57} INFO - === TASK: Create custom index.php file ===
+[2021-01-24 17:49:41,830] {runner.py:21} INFO - sftp /tmp/tmptbgqnv0w /var/www/html/index.php
+[2021-01-24 17:49:42,337] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:43,585] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:43,586] {runner.py:40} INFO - ssh 192.168.0.3 : getent passwd www-data
+[2021-01-24 17:49:44,088] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:45,353] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:46,686] {runner.py:40} INFO - ssh 192.168.0.3 : getent group www-data
+[2021-01-24 17:49:47,187] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:48,446] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:50,516] {sftp.py:158} INFO - [chan 0] Opened sftp connection (server version 3)
+[2021-01-24 17:49:51,744] {runner.py:40} INFO - ssh 192.168.0.3 : chmod 640 /var/www/html/index.php
+[2021-01-24 17:49:52,247] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:53,522] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:54,967] {sftp.py:158} INFO - [chan 0] sftp session closed.
+[2021-01-24 17:49:54,969] {file.py:68} INFO - Exit code: 0
+[2021-01-24 17:49:54,970] {rudicm.py:57} INFO - === TASK: Reload Apache ===
+[2021-01-24 17:49:54,971] {runner.py:40} INFO - ssh 192.168.0.3 : sudo service apache2 reload
+[2021-01-24 17:49:55,702] {transport.py:1819} INFO - Connected (version 2.0, client OpenSSH_7.6p1)
+[2021-01-24 17:49:57,431] {transport.py:1819} INFO - Authentication (password) successful!
+[2021-01-24 17:49:58,959] {service.py:33} INFO - Exit code: 0
+[2021-01-24 17:49:58,960] {rudicm.py:57} INFO - === TASK: Smoke Test the website index page. ===
+[2021-01-24 17:49:58,961] {runner.py:64} INFO - Running locally...
+[2021-01-24 17:49:59,529] {runner.py:74} INFO - Hello, world!
+[2021-01-24 17:49:59,532] {curl.py:46} INFO - PASSED: status code 200 returned.
+[2021-01-24 17:49:59,532] {curl.py:51} INFO - PASSED: response string Hello, world! returned.
+[2021-01-24 17:49:59,532] {curl.py:53} INFO - Exit code: 0
+[2021-01-24 17:49:59,533] {rudicm.py:53} WARNING - === SKIP TASK: Stop Apache (tag install not found)  ===
+[2021-01-24 17:49:59,533] {rudicm.py:53} WARNING - === SKIP TASK: Remove Apache php module (tag install not found)  ===
+[2021-01-24 17:49:59,533] {rudicm.py:53} WARNING - === SKIP TASK: Apt autoremove (tag install not found)  ===
+[2021-01-24 17:49:59,534] {rudicm.py:91} INFO - === RUDICM FINISED ===

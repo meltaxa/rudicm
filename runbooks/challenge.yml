@@ -1,0 +1,131 @@
+- name: Install latest Apache and PHP
+  # Installs three apt packages together.
+  # Demonstrate apt task with the option to run apt update first.
+  # Note: This task could be repeated three times for each package too.
+  apt:
+    install: apache2 php libapache2-mod-php
+    update: True
+    tag:
+      - install
+
+- name: Remove default index.html
+  # We are going to be using index.php instead. 
+  # Demonstrates file task to remove a file.
+  file:
+    remove: /var/www/html/index.html
+    tag:
+      - install
+
+- name: Remove 000-default.conf symlink
+  # We are going to be using our own site default file.
+  file:
+    remove: /etc/apache2/sites-enabled/000-default.conf
+    tag:
+      - install
+
+- name: Copy custom Apache security.conf
+  # Enable production readiness by disabling certain metadata.
+  # Demonstrates copy task that also sets file metadata.
+  copy:
+    src: files/security.conf
+    dest: /etc/apache2/conf-available/security.conf
+    owner: root
+    group: root
+    perms: 644
+    tag:
+      - install
+      - update
+
+- name: Copy custom Apache2 conf
+  # Copy our custom.conf to sites-available dir.
+  copy:
+    src: files/custom.conf
+    dest: /etc/apache2/sites-available/custom.conf
+    owner: root
+    group: root
+    perms: 644
+    tag:
+      - install
+      - update
+
+- name: Symlink custom Apache2 conf
+  # Create a symlink in sites-enabled dir for the aforementioned
+  # custom.conf file.
+  symlink:
+    file: /etc/apache2/sites-available/custom.conf
+    link: /etc/apache2/sites-enabled/custom.conf
+    tag:
+      - install
+      - update
+
+- name: Create custom index.php file
+  # Create the index.php file with custom content.
+  # Demonstrates file task to create and set file content and metadata.
+  # Note: You could also use the copy task to transfer an index.php
+  # file, but for this exercise we are demonstrating using abstraction
+  # within the file task to achieve the same outcome.
+  file:
+    dest: /var/www/html/index.php
+    owner: www-data
+    group: www-data
+    perms: 640
+    content: |
+      <?php
+      header("Content-Type: text/plain");
+      echo "Hello, world!\n";
+    local: False
+    tag:
+      - install
+      - update
+
+- name: Reload Apache
+  # Use the service script to manage the Apache service.
+  # Demonstrates the service task to reload the daemon.
+  service:
+    name: apache2
+    action: reload
+    tag:
+      - install
+      - update
+
+- name: Smoke Test the website index page.
+  # Check the website page is returned and rendered properly.
+  # Demonstrates curl task to check return codes and responses.
+  # Also uses %tokenization% to expand internal RudiCM variables.
+  curl:
+    url: http://%TARGET_IP%
+    status: 200
+    response: Hello, world!
+    local: True
+    tag:
+      - install
+      - update
+      - test
+
+- name: Stop Apache
+  # Stop Apache demonstrates how tags are used to prepare
+  # a set of tasks for uninstalling the stack.
+  service:
+    name: apache2
+    action: stop
+    tag:
+      - remove
+      - never
+
+- name: Remove Apache php module
+  # Use apt to remove the stack that was initially installed. 
+  # apt remove will also purge user files where possible.
+  apt:
+    remove: apache2 libapache2-mod-php7.2 php
+    tag:
+      - remove
+      - never
+
+- name: Apt autoremove
+  # Use apt autoremove to perform housekeeping of leftover files.
+  # Demonstrates apt task using the autoremove option.
+  apt:
+    autoremove: True
+    tag:
+      - remove
+      - never
